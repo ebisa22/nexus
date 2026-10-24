@@ -1,7 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/head.ejs',{title,cssPath:'home.css'}) %>
+<%- include('./partials/head.ejs', { title, cssPath: 'home.css' }) %>
 <body>
-    
+    <%- include('./partials/navbar.ejs') %>
+
+    <main class="home-page">
+        <section class="page-header">
+            <div class="page-heading">
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1>Tech Inventory</h1>
+                <p>Manage your products, organize categories, and keep track of your stock.</p>
+            </div>
+
+            <a href="/item/new" class="button button-primary">Add New Item</a>
+        </section>
+
+        <section class="inventory-overview">
+            <div class="overview-card">
+                <span class="overview-label">Total Categories</span>
+                <span class="overview-value"><%= categories.length %></span>
+            </div>
+
+            <div class="overview-card">
+                <span class="overview-label">Total Products</span>
+                <span class="overview-value"><%= items.length %></span>
+            </div>
+
+            <div class="overview-card">
+                <span class="overview-label">Out of Stock</span>
+                <span class="overview-value">
+                <%= items.filter(item => item.stock_quantity === 0).length %>
+                </span>
+            </div>
+        </section>
+
+        <section class="inventory-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Categories</h2>
+                    <p>Browse your inventory by category.</p>
+                </div>
+
+                <a href="/category/new" class="button button-secondary">+ Add Category</a>
+            </div>
+
+            <% if (categories.length > 0) { %>
+                <div class="category-grid">
+                    <% categories.forEach(category => { %>
+                        <a href="/category/<%= category.id %>" class="category-card">
+                            <div class="category-card-top">
+                                <span class="category-label">CATEGORY</span>
+                                <span class="card-arrow">↗</span>
+                            </div>
+
+                            <h3><%= category.name %></h3>
+                            <p><%= category.description || "Explore products in this category." %></p>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <h3>No categories yet</h3>
+                    <p>Create your first category to start organizing your inventory.</p>
+                    <a href="/category/new" class="button button-primary">Create Category</a>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="inventory-section">
+            <div class="section-heading">
+                <div>
+                    <h2>All Products</h2>
+                    <p>View and manage every product in your store.</p>
+                </div>
+            </div>
+
+            <% if (items.length > 0) { %>
+                <div class="item-grid">
+                    <% items.forEach(item => { %>
+                        <a href="/item/<%= item.id %>" class="item-card">
+                            <div class="item-card-top">
+                                <span class="item-category"><%= item.category_name %></span>
+
+                                <span class="stock-status <%= item.stock_quantity > 0 ? 'in-stock' : 'out-of-stock' %>">
+                                    <%= item.stock_quantity > 0 ? "In Stock" : "Out of Stock" %>
+                                </span>
+                            </div>
+
+                            <h3><%= item.name %></h3>
+
+                            <div class="item-card-bottom">
+                                <span class="item-price">$<%= Number(item.price).toFixed(2) %></span>
+                                <span class="item-quantity"><%= item.stock_quantity %> units</span>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <h3>No products in your inventory</h3>
+                    <p>Add your first product to get your inventory started.</p>
+                    <a href="/item/new" class="button button-primary">Add First Item</a>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('./partials/footer.ejs') %>
 </body>
 </html>

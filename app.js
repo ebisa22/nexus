@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'node:path';
 import homePageRouter from './routes/home.js'; 
+import categoryRouter from './routes/category.js';
 
 const __dirname=import.meta.dirname;
 const PORT=process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'./views'));
 
 app.use('/',homePageRouter);
+app.use('/category',categoryRouter);
 
 app.listen(PORT,(error)=>{
    if(error){
