@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'category.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="categories-page">
+        <section class="page-header">
+            <div class="page-heading">
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1>Categories</h1>
+                <p>Browse and manage your store's product categories.</p>
+            </div>
+
+            <a href="/category/new" class="button button-primary">
+                + Add Category
+            </a>
+        </section>
+
+        <section class="categories-section">
+            <div class="categories-section-heading">
+                <h2>All Categories</h2>
+                <span class="category-count">
+                    <%= categories.length %>
+                    <%= categories.length === 1 ? "category" : "categories" %>
+                </span>
+            </div>
+
+            <% if (categories.length > 0) { %>
+                <div class="category-grid">
+                    <% categories.forEach(category => { %>
+                        <a href="/category/<%= category.id %>" class="category-card">
+                            <div class="category-card-top">
+                                <span class="category-label">CATEGORY</span>
+                                <span class="category-arrow">↗</span>
+                            </div>
+
+                            <h3><%= category.name %></h3>
+
+                            <p class="category-description">
+                                <%= category.description || "Explore products in this category." %>
+                            </p>
+
+                            <div class="category-card-bottom">
+                                <span class="category-item-count">
+                                    <%= category.item_count %>
+                                    <%= category.item_count === 1 ? "item" : "items" %>
+                                </span>
+
+                                <span class="view-category">View Category</span>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <h2>No categories yet</h2>
+                    <p>Create your first category to start organizing your inventory.</p>
+
+            <a href="/category/new" class="button button-primary">
+                Create Category
+            </a>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
