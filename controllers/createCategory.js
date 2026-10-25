@@ -1,6 +1,7 @@
- 
+import db from '../db/queries.js';
+
 const createCateory = async (req, res) => {
- const {name,description}=req.body;
+  await db.insertCategory(req.body);
   res.redirect('/category/new')
 };
 

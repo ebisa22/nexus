@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'category-show.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="category-page">
+        <a href="/category" class="back-link">← Back to Categories</a>
+
+        <section class="category-header">
+            <div>
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1><%= category.name %></h1>
+                <p><%= category.description || 'No description provided.' %></p>
+            </div>
+
+            <div class="category-actions">
+                <a href="/category/<%= category.category_id %>/update"
+                   class="button button-secondary">Edit Category</a>
+
+                <form action="/category/<%= category.category_id %>/delete"
+                      method="POST">
+                    <button type="submit" class="button button-danger">
+                        Delete Category
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <section class="category-items">
+            <div class="section-header">
+                <div>
+                    <h2>Items</h2>
+                    <p><%= items.length %> items in this category</p>
+                </div>
+
+                <a href="/item/new" class="button button-primary">+ Add Item</a>
+            </div>
+
+            <% if (items.length > 0) { %>
+                <div class="item-list">
+                    <% items.forEach(item => { %>
+                        <a href="/item/<%= item.item_id %>" class="item-row">
+                            <div class="item-info">
+                                <h3><%= item.name %></h3>
+                                <p><%= item.description || 'No description provided.' %></p>
+                            </div>
+
+                            <div class="item-details">
+                                <span class="item-price">
+                                    $<%= Number(item.price).toFixed(2) %>
+                                </span>
+
+                                <span class="stock-status <%= item.stock === 0 ? 'out-of-stock' : item.stock <= 5 ? 'low-stock' : 'in-stock' %>">
+                                    <%= item.stock === 0 ? 'Out of stock' : item.stock <= 5 ? 'Low stock' : 'In stock' %>
+                                    (<%= item.stock %>)
+                                </span>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <h3>No items yet</h3>
+                    <p>This category doesn't have any items. Add one to get started.</p>
+                    <a href="/item/new" class="button button-primary">Add First Item</a>
+                </div>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

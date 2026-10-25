@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'category-update.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="category-update-page">
+        <a href="/category/<%= category.category_id %>" class="back-link">
+            ← Back to Category
+        </a>
+
+        <section class="form-container">
+            <div class="form-heading">
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1>Update Category</h1>
+                <p>Make changes to this category's name or description.</p>
+            </div>
+
+            <form action="/category/<%= category.category_id %>/update" method="POST">
+                <div class="form-group">
+                    <label for="name">Category Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="<%= category.name %>"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description <span class="optional">(Optional)</span>
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        maxlength="255"
+                        placeholder="Describe the products in this category..."
+                    ><%= category.description || '' %></textarea>
+                    <span class="field-hint">
+                        A short description helps you identify this category.
+                    </span>
+                </div>
+
+                <div class="form-actions">
+                    <a
+                        href="/category/<%= category.category_id %>"
+                        class="button button-secondary"
+                    >
+                        Cancel
+                    </a>
+                    <button type="submit" class="button button-primary">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
