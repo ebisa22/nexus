@@ -29,7 +29,7 @@
             <div class="overview-card">
                 <span class="overview-label">Out of Stock</span>
                 <span class="overview-value">
-                <%= items.filter(item => item.stock_quantity === 0).length %>
+                <%= items.filter(item => item.stock === 0).length %>
                 </span>
             </div>
         </section>
@@ -78,12 +78,12 @@
             <% if (items.length > 0) { %>
                 <div class="item-grid">
                     <% items.forEach(item => { %>
-                        <a href="/item/<%= item.id %>" class="item-card">
+                        <a href="/item/<%= item.item_id %>" class="item-card">
                             <div class="item-card-top">
                                 <span class="item-category"><%= item.category_name %></span>
 
-                                <span class="stock-status <%= item.stock_quantity > 0 ? 'in-stock' : 'out-of-stock' %>">
-                                    <%= item.stock_quantity > 0 ? "In Stock" : "Out of Stock" %>
+                                <span class="stock-status <%= item.stock > 0 ? 'in-stock' : 'out-of-stock' %>">
+                                    <%= item.stock > 0 ? "In Stock" : "Out of Stock" %>
                                 </span>
                             </div>
 
@@ -91,7 +91,7 @@
 
                             <div class="item-card-bottom">
                                 <span class="item-price">$<%= Number(item.price).toFixed(2) %></span>
-                                <span class="item-quantity"><%= item.stock_quantity %> units</span>
+                                <span class="item-quantity"><%= item.stock %> units</span>
                             </div>
                         </a>
                     <% }) %>

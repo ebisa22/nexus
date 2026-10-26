@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'item-show.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="item-show-page">
+        <a href="/" class="back-link">← Back to Inventory</a>
+
+        <section class="item-detail-card">
+            <div class="item-detail-header">
+                <div class="item-heading">
+                    <span class="eyebrow">NEXUS INVENTORY</span>
+                    <p class="item-category">
+                        <a href="/category/<%= item.category_id %>">
+                            <%= item.category_name %>
+                        </a>
+                    </p>
+                    <h1><%= item.name %></h1>
+                    <p class="item-description">
+                        <%= item.description || 'No description provided.' %>
+                    </p>
+                </div>
+
+                <div class="item-detail-actions">
+                    <a href="/item/<%= item.item_id %>/update"
+                       class="button button-secondary">
+                        Edit Item
+                    </a>
+
+                    <form
+                        action="/item/<%= item.item_id %>/delete"
+                        method="POST"
+                        onsubmit="return confirmItemDelete(event)"
+                    >
+                        <button type="submit" class="button-danger">
+                            Delete Item
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="item-information">
+                <div class="information-card">
+                    <span class="information-label">Price</span>
+                    <strong class="item-detail-price">
+                        $<%= Number(item.price).toFixed(2) %>
+                    </strong>
+                </div>
+
+                <div class="information-card">
+                    <span class="information-label">Available Stock</span>
+                    <strong><%= item.stock %></strong>
+                    <span class="stock-status <%= item.stock === 0 ? 'out-of-stock' : item.stock <= 5 ? 'low-stock' : 'in-stock' %>">
+                        <%= item.stock === 0 ? 'Out of stock' : item.stock <= 5 ? 'Low stock' : 'In stock' %>
+                    </span>
+                </div>
+
+                <div class="information-card">
+                    <span class="information-label">Category</span>
+                    <strong><%= item.category_name %></strong>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function confirmItemDelete(event) {
+            const password = prompt("Enter the password to delete this item:");
+
+            if (password !== "1234") {
+                event.preventDefault();
+
+                if (password !== null) {
+                    alert("Incorrect password. Item was not deleted.");
+                }
+
+                return false;
+            }
+
+            return confirm("Are you sure you want to delete this item?");
+        }
+    </script>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

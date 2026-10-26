@@ -205,6 +205,16 @@
  line-height: 1.6;
 }
 
+.alert-error {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
 @media (max-width: 760px) {
  .category-page {
   padding: 24px 18px 40px;

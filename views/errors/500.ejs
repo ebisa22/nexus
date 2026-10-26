@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'error.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="error-page">
+        <section class="error-container">
+            <span class="eyebrow">NEXUS INVENTORY</span>
+            <p class="error-code">500</p>
+            <h1>Something Went Wrong</h1>
+            <p class="error-description">
+                We couldn't complete your request due to an unexpected error.
+                Please try again in a moment.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="button button-primary">Back to Inventory</a>
+                <button class="button button-secondary" onclick="window.location.reload()">
+                    Try Again
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

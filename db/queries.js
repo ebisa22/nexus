@@ -79,10 +79,107 @@ const getCategoryById = async (id) => {
     throw error;
   }
 };
+
+const updateCategory=async (id,new_category)=>{
+      const { name, description } = new_category;
+      const SQL = `
+    UPDATE category
+    SET name=$1,
+        description=$2
+    WHERE category_id=$3
+  `;
+      try {
+        await pool.query(SQL, [name, description,id]);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+}
+
+const deleteCategory=async (id)=>{
+  const SQL = `
+    DELETE FROM category
+    WHERE category_id=$1
+  `;
+  try {
+    await pool.query(SQL, [id]);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+const getItemById=async (id)=>{
+   const SQL = `
+  SELECT * FROM item 
+  WHERE item_id=$1
+  `;
+     try {
+       const { rows } = await pool.query(SQL, [id]);
+       return rows;
+     } catch (error) {
+       console.error(error);
+       throw error;
+     }
+}
+
+const updateItem = async (id, new_item) => {
+  const { name, description,price,stock,category_id } = new_item;
+  const SQL = `
+    UPDATE item
+    SET name=$1,
+        description=$2,
+        price=$3,
+        stock=$4,
+        category_id=$5
+    WHERE item_id=$6
+  `;
+  try {
+    await pool.query(SQL, [name, description, price,stock,category_id,id]);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const insertItem=async (item)=>{
+    const { name,description,price,stock,category_id} = item;
+    const SQL = `
+    INSERT INTO item(name,description,price,stock,category_id) VALUES
+    ($1,$2,$3,$4,$5)
+  `;
+    try {
+      await pool.query(SQL, [name, description,price,stock,category_id]);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+}
+
+
+const deleteItem = async (id) => {
+  const SQL = `
+    DELETE FROM item
+    WHERE item_id=$1
+  `;
+  try {
+    await pool.query(SQL, [id]);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export default {
   getAllCategory,
   getAllItems,
   getItemsByCategory,
   insertCategory,
-  getCategoryById
+  getCategoryById,
+  updateCategory,
+  deleteCategory,
+  getItemById,
+  updateItem,
+  insertItem,
+  deleteItem
 }

@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'item-form.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="item-form-page">
+        <a href="/" class="back-link">← Back to Inventory</a>
+
+        <section class="form-container">
+            <div class="form-heading">
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1>Add New Item</h1>
+                <p>Add a product to your inventory and assign it to an existing category.</p>
+            </div>
+
+            <form action="/item/new" method="POST">
+                <div class="form-group">
+                    <label for="name">Item Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="e.g. Dell XPS 15"
+                        maxlength="150"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description <span class="optional">(Optional)</span>
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        maxlength="255"
+                        placeholder="Describe the item..."
+                    ></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock Quantity</label>
+                        <input
+                            type="number"
+                            id="stock"
+                            name="stock"
+                            min="0"
+                            step="1"
+                            value="0"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="category-label-row">
+                        <label for="category_id">Category</label>
+                        <a href="/category/new" class="create-category-link">
+                            + Create new category
+                        </a>
+                    </div>
+
+                    <select id="category_id" name="category_id" required>
+                        <option value="" disabled selected>
+                            Select an existing category
+                        </option>
+
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.category_id %>">
+                                <%= category.name %>
+                            </option>
+                        <% }) %>
+                    </select>
+
+                    <span class="field-hint">
+                        Only existing categories can be selected. To add a new one, use the link above.
+                    </span>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/" class="button button-secondary">Cancel</a>
+                    <button type="submit" class="button button-primary">
+                        Add Item
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

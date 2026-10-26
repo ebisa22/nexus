@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs', { title, cssPath: 'item-update.css' }) %>
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <main class="item-update-page">
+        <a href="/item/<%= item.item_id %>" class="back-link">← Back to Item Details</a>
+
+        <section class="form-container">
+            <div class="form-heading">
+                <span class="eyebrow">NEXUS INVENTORY</span>
+                <h1>Update Item</h1>
+                <p>Update the product information and save your changes.</p>
+            </div>
+
+            <form action="/item/<%= item.item_id %>/update" method="POST">
+                <div class="form-group">
+                    <label for="name">Item Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="<%= item.name %>"
+                        maxlength="150"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Description <span class="optional">(Optional)</span>
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        maxlength="255"
+                        placeholder="Describe the item..."
+                    ><%= item.description || '' %></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            value="<%= item.price %>"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock Quantity</label>
+                        <input
+                            type="number"
+                            id="stock"
+                            name="stock"
+                            value="<%= item.stock %>"
+                            min="0"
+                            step="1"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="category-label-row">
+                        <label for="category_id">Category</label>
+                        <a href="/category/new" class="create-category-link">
+                            + Create new category
+                        </a>
+                    </div>
+
+                    <select id="category_id" name="category_id" required>
+                        <% categories.forEach(category => { %>
+                            <option
+                                value="<%= category.category_id %>"
+                                <%= Number(category.category_id) === Number(item.category_id) ? 'selected' : '' %>
+                            >
+                                <%= category.name %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/item/<%= item.item_id %>" class="button button-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="button button-primary">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>
